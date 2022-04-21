@@ -9,7 +9,7 @@ const ReservationSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  hospital: {
+  camp: {
     type: mongoose.Schema.ObjectId,
     ref: "Camp",
     required: true,
@@ -18,7 +18,7 @@ const ReservationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  nigths:{
+  nights:{
     type:Number,
     required:true
   }

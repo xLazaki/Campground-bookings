@@ -21,8 +21,8 @@ const CampSchema = new mongoose.Schema({
 });
 
 //Reverse populate with virtuals
-CampSchema.virtual ('camps', {
-    ref: 'Resevation',
+CampSchema.virtual ('reservations', {
+    ref: 'Reservation',
     localField:'_id',
     foreignField:'camp',
     justOne:false
