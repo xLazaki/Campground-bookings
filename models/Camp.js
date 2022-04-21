@@ -11,7 +11,7 @@ const CampSchema = new mongoose.Schema({
         type:String,
         required:[true,'Please add an address']
     },
-    telPhone:{
+    tel:{
         type:String,
         required:[true,'Please add telephone number']
     }
