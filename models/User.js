@@ -25,15 +25,20 @@ const UserSchema = new mongoose.Schema({
     password:{
         type:String,
         required:[true,'Please add a password'],
-        minlength : 6,
+        minlength : 5,
         select: false
     },
+    tel:{
+        type:String,
+        required:true,
+        unique:true
+    },    
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     createdAt:{
         type:Date,
         default:Date.now
-    }    
+    },
 });
 
 //Encrypt password using bcrypt

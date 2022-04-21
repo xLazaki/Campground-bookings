@@ -1,10 +1,10 @@
-const Hospital = require("../models/Hospital.js");
+const Camp = require("../models/Camp.js");
 //const vacCenter = require("../models/VacCenter");
-//@desc Get all hospitals
-//@route GET /api/v1/hospitalss
+//@desc Get all Camps
+//@route GET /api/v1/Campss
 //@access Publice
 
-exports.getHospitals = async (req, res, next) => {
+exports.getCamps = async (req, res, next) => {
       console.log(req.query);
       let query;
 
@@ -20,7 +20,7 @@ exports.getHospitals = async (req, res, next) => {
 
       let queryStr = JSON.stringify(reqQuery);
       queryStr=queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g,match=>`$${match}`);
-      query = Hospital.find(JSON.parse(queryStr)).populate('appointments');
+      query = Camp.find(JSON.parse(queryStr)).populate('reservations');
 
       //Select Fields
       if(req.query.select){
@@ -42,10 +42,10 @@ exports.getHospitals = async (req, res, next) => {
       const endIndex = page*limit;
       
   try {
-    const total = await Hospital.countDocuments();
+    const total = await Camp.countDocuments();
       query = query.skip(startIndex).limit(limit);
       //execute query
-    const hospitals = await query;
+    const Camps = await query;
     //Pagination result
     const pagination={};
 
@@ -64,89 +64,75 @@ exports.getHospitals = async (req, res, next) => {
     }
     res
       .status(200)
-      .json({ success: true, count: hospitals.length, data: hospitals });
+      .json({ success: true, count: Camps.length, data: Camps });
   } catch (err) {
     res.status(400).json({ success: false });
   }
 };
-//@desc Get single hospitals
-//@route GET /api/v1/hospitals/:id
+//@desc Get single Camps
+//@route GET /api/v1/Camps/:id
 //@access Public
 
-exports.getHospital = async (req, res, next) => {
+exports.getCamp = async (req, res, next) => {
   try {
-    const hospital = await Hospital.findById(req.params.id).populate("appointments");
-    if (!hospital) {
+    const Camp = await Camp.findById(req.params.id).populate("reservations");
+    if (!Camp) {
       return res.status(400).json({ success: false });
     }
-    res.status(200).json({ success: true, data: hospital });
+    res.status(200).json({ success: true, data: Camp });
   } catch (err) {
     res.status(400).json({ success: false });
   }
-  res.status(200).json({ success: true, msg: `Get hospital ${req.params.id}` });
+  res.status(200).json({ success: true, msg: `Get Camp ${req.params.id}` });
 };
-//@desc Create a hospitals
-//@route  /api/v1/hospitals
+//@desc Create a Camps
+//@route  /api/v1/Camps
 
-exports.createHospital = async (req, res, next) => {
+exports.createCamp = async (req, res, next) => {
   console.log(req.body);
-  const hospital = await Hospital.create(req.body);
-  res.status(200).json({ success: true, data: hospital });
+  const Camp = await Camp.create(req.body);
+  res.status(200).json({ success: true, data: Camp });
   
 };
-//@desc put single hospitals
-//@route GET /api/v1/hospitals
+//@desc put single Camps
+//@route GET /api/v1/Camps
 //@access Publice
 
-exports.updateHospital = async (req, res, next) => {
+exports.updateCamp = async (req, res, next) => {
   try {
-    const hospital = await Hospital.findByIdAndUpdate(req.params.id, req.body, {
+    const Camp = await Camp.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
 
-    if (!hospital) {
+    if (!Camp) {
       return res.status(400).json({ success: false });
     }
     res
       .status(200)
       .json({
         success: true,
-        msg: `Update hospital ${req.params.id}`,
-        data: hospital,
+        msg: `Update Camp ${req.params.id}`,
+        data: Camp,
       });
   } catch (err) {
     res.status(400).json({ success: false });
   }
 };
 
-//@desc delete single hospitals
-//@route GET /api/v1/hospitals
+//@desc delete single Camps
+//@route GET /api/v1/Camps
 //@access Pivate
 
-exports.deleteHospital = async (req, res, next) => {
+exports.deleteCamp = async (req, res, next) => {
   try {
-    const hospital = await Hospital.findByIdAndDelete(req.params.id);
-    if (!hospital) {
-      return res.status(404).json({ success: false ,message:`Bootcamp not found with id of ${req.params.id}`});
+    const Camp = await Camp.findByIdAndDelete(req.params.id);
+    if (!Camp) {
+      return res.status(404).json({ success: false ,message:`Camp not found with id of ${req.params.id}`});
     }
-    hospital.remove();
+    Camp.remove();
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
     res.status(400).json({ success: false });
   }
 };
-
-//@desc Get vaccine centers
-//@route GET /api/v1/hospitals/vacCenters/
-//@access Public
-// exports.getVacCenters= (req,res,next)=>{
-//   vacCenter.getAll((err, data) => {
-//       if (err)
-//         res.status(500).send({
-//           message:
-//             err.message || "Some error occurred while retrieving Vaccine Centers."
-//         });
-//       else res.send(data);
-//   });
-// };
