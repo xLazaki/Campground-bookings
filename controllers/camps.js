@@ -20,7 +20,7 @@ exports.getCamps = async (req, res, next) => {
 
       let queryStr = JSON.stringify(reqQuery);
       queryStr=queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g,match=>`$${match}`);
-      query = Camp.find(JSON.parse(queryStr)).populate('reservations');
+      query = Camp.find(JSON.parse(queryStr));
 
       //Select Fields
       if(req.query.select){
@@ -75,7 +75,7 @@ exports.getCamps = async (req, res, next) => {
 
 exports.getCamp = async (req, res, next) => {
   try {
-    const camp = await Camp.findById(req.params.id).populate("reservations");
+    const camp = await Camp.findById(req.params.id);
     if (!camp) {
       return res.status(400).json({ success: false });
     }

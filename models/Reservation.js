@@ -20,6 +20,8 @@ const ReservationSchema = new mongoose.Schema({
   },
   nights:{
     type:Number,
+    min: [1],
+    max: [3, 'You cant reserve for more than three nights'],
     required:true
   }
 });
