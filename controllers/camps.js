@@ -75,7 +75,7 @@ exports.getCamps = async (req, res, next) => {
 
 exports.getCamp = async (req, res, next) => {
   try {
-    const camp = await Camp.findById(req.params.id);
+    const camp = await Camp.findById(req.params.id).populate("reservations");
     if (!camp) {
       return res.status(400).json({ success: false });
     }
@@ -83,7 +83,7 @@ exports.getCamp = async (req, res, next) => {
   } catch (err) {
     res.status(400).json({ success: false });
   }
-  res.status(200).json({ success: true, msg: `Get Camp ${req.params.id}` });
+  //res.status(200).json({ success: true, msg: `Get Camp ${req.params.id}` });
 };
 //@desc Create a Camps
 //@route  /api/v1/Camps

@@ -21,10 +21,10 @@ const CampSchema = new mongoose.Schema({
 });
 
 //Reverse populate with virtuals
-// CampSchema.virtual ('reservations', {
-//     ref: 'Reservation',
-//     localField:'_id',
-//     foreignField:'camp',
-//     justOne:false
-// });
+CampSchema.virtual ('reservations', {
+    ref: 'Reservation',
+    localField:'_id',
+    foreignField:'camp',
+    justOne:false
+});
 module.exports=mongoose.model('Camp',CampSchema);
